@@ -14,6 +14,9 @@ type SetCounterAction = {
 
 type CounterAction = SetCounterAction | BasicCounterACtion;
 
+const initialState = {value:0};
+
+
 const reducer = (state:CounterState,action:CounterAction)=>{
   switch(action.type){
     case 'increment':
@@ -29,7 +32,8 @@ const reducer = (state:CounterState,action:CounterAction)=>{
  
 
 const Counter = () => {
-  const [state,dispatch] = useReducer(reducer,{value:0})
+    
+  const [state,dispatch] = useReducer(reducer,initialState)
   return (
     <main className="Counter">
       <h1>Days Since Last Incident</h1>

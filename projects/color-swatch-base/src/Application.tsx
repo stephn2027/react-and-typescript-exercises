@@ -5,46 +5,30 @@ import { ColorInputs } from './ColorInputs';
 import { ColorSliders } from './ColorSliders';
 
 import { toRGB } from './utilities';
-
-
-export interface RGBColorType  {
-  red: number;
-  green:number;
-  blue:number;
-}
-
-export type AdjustmentAction ={
-  type: 'ADJUST_RED'|'ADJUST_GREEN'|'ADJUST_BLUE';
-  payload:number;
-}
-
-const reducer = (state:RGBColorType,action:AdjustmentAction)=>{
-   switch(action.type){
-    case 'ADJUST_RED':
-      return {...state,red:action.payload}
-    case 'ADJUST_GREEN':
-      return {...state,green:action.payload}
-    case 'ADJUST_BLUE':
-      return {...state,blue:action.payload}
-    default : 
-      return state
-   }
-}
-
-const colorChoices:RGBColorType = {red:0,green:0,blue:0};
+import { reducer } from './reducer';
+import { ThemeContext } from './theme-context';
 
 const Application = () => {
-  const [rgb, dispatch] = React.useReducer(reducer, colorChoices);
-
+  const [rgb] = React.useReducer(reducer, {
+    red: 0,
+    green: 0,
+    blue: 0
+  });
+  const themes = React.useContext(ThemeContext);
 
   return (
-    <main style={{ borderColor: toRGB(rgb) }}>
-      <ColorSwatch {...rgb} />
+    <main
+      style={{
+        borderColor: toRGB(rgb),
+
+        ...themes.dark
+      }}
+    >
+      <ColorSwatch />
       <ColorInputs {...rgb} />
-      <ColorSliders {...rgb} dispatch={dispatch} />
+      <ColorSliders  />
     </main>
   );
 };
 
 export default Application;
-

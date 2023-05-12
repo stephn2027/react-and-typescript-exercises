@@ -1,12 +1,42 @@
+import { ChangeEvent, useContext } from 'react';
 import { ColorSlider } from './ColorSlider';
-import { RGBColorType } from './types';
+import { RGBCOntext } from './context';
 
-export const ColorSliders = ({ red, green, blue }: RGBColorType) => {
+export const ColorSliders = () => {
+  const { red, green, blue, dispatch } = useContext(RGBCOntext);
+
+  const adjustRed = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch({ type: 'ADJUST_RED', payload: +event.target.value });
+  };
+
+  const adjustGreen = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch({ type: 'ADJUST_GREEN', payload: +event.target.value });
+  };
+
+  const adjustBlue = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch({ type: 'ADJUST_BLUE', payload: +event.target.value });
+  };
+
   return (
     <section className="color-sliders">
-      <ColorSlider id="red-slider" label="Red" value={red} />
-      <ColorSlider id="green-slider" label="Green" value={green} />
-      <ColorSlider id="blue-slider" label="Blue" value={blue} />
+      <ColorSlider
+        id="red-slider"
+        label="Red"
+        value={red}
+        onChange={adjustRed}
+      />
+      <ColorSlider
+        id="green-slider"
+        label="Green"
+        value={green}
+        onChange={adjustGreen}
+      />
+      <ColorSlider
+        id="blue-slider"
+        label="Blue"
+        value={blue}
+        onChange={adjustBlue}
+      />
     </section>
   );
 };

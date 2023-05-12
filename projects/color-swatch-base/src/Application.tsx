@@ -1,12 +1,14 @@
 import * as React from 'react';
 
 import { ColorSwatch } from './ColorSwatch';
-import { ColorInputs } from './ColorInputs';
-import { ColorSliders } from './ColorSliders';
+
+import {ColorAdjustment} from './ColorAdjustment'
 
 import { toRGB } from './utilities';
 import { reducer } from './reducer';
 import { ThemeContext } from './theme-context';
+import { ColorSlider } from './ColorSlider';
+import { ColorInput } from './ColorInput';
 
 const Application = () => {
   const [rgb] = React.useReducer(reducer, {
@@ -25,8 +27,8 @@ const Application = () => {
       }}
     >
       <ColorSwatch />
-      <ColorInputs {...rgb} />
-      <ColorSliders  />
+      <ColorAdjustment Adjustment={ColorInput} />
+      <ColorAdjustment Adjustment={ColorSlider}/>
     </main>
   );
 };

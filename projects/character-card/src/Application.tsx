@@ -5,20 +5,34 @@ import { CharacterType, fetchCharacter } from './characters';
 import { Loading } from './Loading';
 import { CharacterInformation } from './CharacterInformation';
 
-const Application = () => {
-  const [character, setCharacter] = React.useState<CharacterType | null>(null);
-  const [isLoading, setLoading] = React.useState<boolean>(true);
-  React.useEffect(() => {
-    setTimeout(() => {
-      fetchCharacter().then((c) => setCharacter(c));
-      setLoading(!isLoading);
-    }, 2000);
-  }, []);
+type WithChacterProps = {
+  character: CharacterType;
+};
 
+function withChacter<T>(Component: React.ComponentType<T>) {
+  return (props: Omit<T, keyof WithChacterProps>) => {
+    const [character, setCharacter] = React.useState<CharacterType | null>(
+      null
+    );
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+      fetchCharacter().then((c) => {
+        setCharacter(c);
+        setLoading(false);
+      });
+    }, []);
+    if (loading) return <Loading />;
+    return <Component {...(props as T)} character={character} />;
+  };
+}
+
+const CharacterInformationWithCharacter = withChacter(CharacterInformation);
+
+const Application = () => {
   return (
     <main>
-      {isLoading && <Loading />}
-      {character && <CharacterInformation character={character} />}
+      <CharacterInformationWithCharacter />
     </main>
   );
 };

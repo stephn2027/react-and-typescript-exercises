@@ -1,5 +1,5 @@
-import { ChangeEvent, Dispatch } from "react";
-import { AdjustmentAction, RGBColorType } from "./Application";
+import { ChangeEvent, useContext} from "react";
+import { RGBCOntext } from "./context";
 
 
 export interface ColorInputProps{
@@ -8,10 +8,8 @@ export interface ColorInputProps{
   value: number;
   onChange:(event:ChangeEvent<HTMLInputElement>)=>void;
 }
+const { red, green, blue, dispatch } = useContext(RGBCOntext);
 
-interface colorSiderProps extends RGBColorType {
-  dispatch:Dispatch<AdjustmentAction>;
-}
 
 const adjustRed= (event: ChangeEvent<HTMLInputElement>) => {
   dispatch({ type: "ADJUST_RED", payload: +event.target.value });

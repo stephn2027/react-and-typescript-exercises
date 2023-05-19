@@ -15,7 +15,7 @@ export const reducer = (
   action: AdjustmentAction
 ): RGBColorType => {
   for(const color of colors){
-    if(action.type === `ADJUST_BLUE${color.toUpperCase}`){
+    if(action.type === `ADJUST_${color.toUpperCase}`){
       return {...state,[color]:action.payload}
     }
   }

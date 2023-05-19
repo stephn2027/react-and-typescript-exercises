@@ -40,7 +40,7 @@ const Counter = () => {
   <p className="count">{state.value}</p>
       <section className="controls">
         <button onClick={()=>dispatch({type:'increment'})}>Increment</button>
-        <button onClick={()=>dispatch({type:'set',payload:0})}>Reset</button>
+        <button onClick={(e)=>dispatch({type:'set',payload:+e.currentTarget.value})}>Reset</button>
         <button onClick={()=>dispatch({type:'decrement'})}>Decrement</button>
       </section>
     </main>

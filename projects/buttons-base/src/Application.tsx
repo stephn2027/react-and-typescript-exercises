@@ -1,5 +1,8 @@
-type ButtonProps = {
+import React from "react";
+
+type ButtonProps<E extends React.ElementType = React.ElementType> = {
   children: string;
+  as?:E
 };
 
 type PrimaryButtonProps = ButtonProps & {
@@ -18,7 +21,7 @@ type DestructiveButtonProps = ButtonProps & {
   secondary?:never,
 };
 
-type CombinedButtonProps = PrimaryButtonProps | SecondaryButtonProps | DestructiveButtonProps;
+
 
 const createClassNames = (classes: { [key: string]: boolean }): string => {
   let classNames = '';
@@ -27,15 +30,18 @@ const createClassNames = (classes: { [key: string]: boolean }): string => {
   }
   return classNames.trim();
 };
+ 
+const defaultElement = 'button';
 
-const Button = ({
+function Button<E extends React.ElementType = typeof defaultElement>({
   children,
   primary = false,
   secondary = false,
-  destructive = false
-}: (PrimaryButtonProps|SecondaryButtonProps|DestructiveButtonProps)) => {
+  destructive = false,
+  as
+}: (PrimaryButtonProps|SecondaryButtonProps|DestructiveButtonProps)<E>) => {
   const classNames = createClassNames({ primary, secondary, destructive });
-
+  const TagName = as || defaultElement;
   return <button className={classNames}>{children}</button>;
 };
 
